@@ -1,0 +1,1 @@
+module.exports.URL = "http://nestio.space/api/satellite/data"; 

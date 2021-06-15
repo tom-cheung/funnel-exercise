@@ -27,7 +27,7 @@ async function call_nestio() {
 
         responses.sum += response.data.altitude; // sum altitude data 
         responses.average = responses.sum / responses.altitudeData.length; // calculating average 
-        let sortedAltitudeData = Array.from(responses.altitudeData).sort(); // 
+        let sortedAltitudeData = Array.from(responses.altitudeData).sort(); // sort data to obtain minimum and maximum 
         responses.minimum = sortedAltitudeData[0];
         responses.maximum = sortedAltitudeData[sortedAltitudeData.length - 1]
         responses.time = `Last ${Math.floor((responses.altitudeData.length * 10) / 60)} minute(s)` // calculate minutes, ends at last 5 

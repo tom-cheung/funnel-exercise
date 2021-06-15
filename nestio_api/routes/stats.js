@@ -9,9 +9,9 @@ router.get('/stats', (req, res) => {
         })
     } else {
         res.status(200).json({
-            minimum_altitude: responses.minimum,
-            maximum_altitude: responses.maximum, 
-            average_altitude: responses.average, 
+            minimum_altitude_in_km: responses.minimum,
+            maximum_altitude_in_km: responses.maximum, 
+            average_altitude_in_km: responses.average, 
             time: responses.time 
         })
     }

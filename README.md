@@ -12,6 +12,15 @@ This API is used to track the health Funnel Leasing's satellite through monitori
 
 * `http://localhost:3000/api/stats` - this endpoint reports the maximum, minimum, and average altitude of the satellite over the last 5 minute period. Data is returned as JSON 
 
+```javascript
+    {
+        minimum_altitude_in_km: 130.8570264453636,
+        maximum_altitude_in_km: 183.59951466436888,
+        average_altitude_in_km: 156.7028635882785,
+        time: "Last 5 minute(s)"
+    }
+```
+
 Also included is a testing file for the API. 
 
 ## Environment and Dependencies 

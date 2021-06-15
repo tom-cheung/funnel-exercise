@@ -4,6 +4,11 @@ This API is used to track the health Funnel Leasing's satellite through monitori
 
 * `http://localhost:3000/api/health` - this endpoint warns if the average altitude of the satellite drops below 160KM, reports if the average altitude returns to at least 160KM, and otherwise reports that the altitude is OK. Data is returned as JSON. 
 
+```javascript 
+    {
+        health: "Altitude is A-OK"
+    }
+```
 
 * `http://localhost:3000/api/stats` - this endpoint reports the maximum, minimum, and average altitude of the satellite over the last 5 minute period. Data is returned as JSON 
 

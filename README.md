@@ -47,4 +47,4 @@ Clone this repository https://github.com/tom-cheung/funnel-exercise.git. For the
 * `http://localhost:3000/api/health` - for the satellite altitude health data  
 * `http://localhost:3000/api/stats` - for the satellite altitude data over the past 5 minutes 
 
-For testing, once this repository has been cloned, cd into the test_nestio_api directory and run `npm install`. Once the dependencies have been installed run `npm run mocha-test` to run the tests on the API. 
+For testing, once this repository has been cloned, start the server following the API instructions, then cd into the test_nestio_api directory and run `npm install`. Once the dependencies have been installed run `npm run mocha-test` to run the tests on the API. 

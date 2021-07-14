@@ -56,7 +56,7 @@ async function call_nestio() {
                 timeStamp = response.data.last_updated;
             }
         }
-        
+
         responses.average = responses.sum / responses.altitudeData.length; // calculating average 
         let sortedAltitudeData = Array.from(responses.altitudeData).sort(); // sort data to obtain minimum and maximum 
         responses.minimum = sortedAltitudeData[0];

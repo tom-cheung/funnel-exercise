@@ -12,7 +12,7 @@ router.get('/stats', (req, res) => {
             minimum_altitude_in_km: responses.minimum,
             maximum_altitude_in_km: responses.maximum, 
             average_altitude_in_km: responses.average, 
-            time: responses.time 
+            time: `Last ${responses.time} minute(s)` // calculate minutes, ends at 5
         })
     }
 

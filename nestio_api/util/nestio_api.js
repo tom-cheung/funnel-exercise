@@ -12,10 +12,10 @@ let responses = {
     error: false,
 }
 
-let timeStamp = null;
-let fiveMinuteTarget = null;  
-let fiveMinuteReached = false; 
-let timeoutInterval = 1000;
+let timeStamp = null; // milliseconds 
+let fiveMinuteTarget = null;  // timestamp + 5 minutes 
+let fiveMinuteReached = false; // boolean value indicating whether 5 minutes of data has been collected
+let timeoutInterval = 1000; 
 
 async function call_nestio() {
     let response = await axios.get(URL.URL);
@@ -40,7 +40,7 @@ async function call_nestio() {
         // use the timestamp to collect unique altitude data based on time 
         if(!timeStamp) {
             timeStamp = milliseconds;
-            responses.altitudeData.push([milliseconds, response.data.altitude]);
+            responses.altitudeData.push([milliseconds, response.data.altitude]); // array with subarray of containing last_updated, and altitude which allows searching based on time, used for the health API 
             responses.sum += response.data.altitude;
         } else {
             if(milliseconds !== timeStamp) {
@@ -54,7 +54,7 @@ async function call_nestio() {
         }
 
         responses.average = responses.sum / responses.altitudeData.length; // calculating average 
-        let sortedAltitudeData = Array.from(responses.altitudeData).sort((a, b) => a[1] - b[1]); // sort data to obtain minimum and maximum 
+        let sortedAltitudeData = Array.from(responses.altitudeData).sort((a, b) => a[1] - b[1]); // sort data to obtain minimum and maximum, move to within conditional so it is not run as often
         responses.minimum = sortedAltitudeData[0][1];
         responses.maximum = sortedAltitudeData[sortedAltitudeData.length - 1][1];
         // responses.time = `Last ${Math.ceil( (responses.altitudeData[responses.altitudeData.length - 1][0] - responses.altitudeData[0][0]) / 60000)} minute(s)` // calculate minutes, ends at last 5 

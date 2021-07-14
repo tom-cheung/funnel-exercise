@@ -12,20 +12,51 @@ let responses = {
     error: false,
 }
 
+let timeStamp = "";
+let fiveMinuteTarget = null;  
+let fiveMinuteReached = false; 
+let altData = []; 
 
+
+let timeoutInterval = 1000;
 async function call_nestio() {
     let response = await axios.get(URL.URL);
-    
+
     if(response.status === 200) {
         responses.error = false; 
-        if(responses.altitudeData.length < 30) { // collect only 5 minutes of data 
-            responses.altitudeData.push(response.data.altitude);
-        } else {
-            responses.sum -= responses.altitudeData.shift(); 
-            responses.altitudeData.push(response.data.altitude); 
+
+        let min = new Date(response.data.last_updated).getMinutes();
+        let sec = new Date(response.data.last_updated).getSeconds(); 
+
+        // set a target for 5 minutes 
+        if(!fiveMinuteTarget) {
+            fiveMinuteTarget = [(min + 5) % 60, sec]; 
+        } 
+
+        // once the 5 minute target has been reached, set fiveMinuteReached to true; 
+        // used to control how many data points are being recorded. 
+        if(min === fiveMinuteTarget[0] && sec === fiveMinuteTarget[1]) {
+            fiveMinuteReached = true; 
         }
 
-        responses.sum += response.data.altitude; // sum altitude data 
+        // use the timestamp to collect unique altitude data based on time 
+        if(!timeStamp) {
+            timeStamp = response.data.last_updated;
+            responses.altitudeData.push(response.data.altitude);
+            responses.sum += response.data.altitude;
+        } else {
+            if(timeStamp !== response.data.last_updated && !fiveMinuteReached) {
+                responses.altitudeData.push(response.data.altitude);
+                responses.sum += response.data.altitude;
+                timeStamp = response.data.last_updated;
+            } else if(timeStamp !== response.data.last_updated && fiveMinuteReached) {
+                responses.sum -= responses.altitudeData.shift(); 
+                responses.altitudeData.push(response.data.altitude);
+                responses.sum += response.data.altitude;
+                timeStamp = response.data.last_updated;
+            }
+        }
+        
         responses.average = responses.sum / responses.altitudeData.length; // calculating average 
         let sortedAltitudeData = Array.from(responses.altitudeData).sort(); // sort data to obtain minimum and maximum 
         responses.minimum = sortedAltitudeData[0];
@@ -38,7 +69,7 @@ async function call_nestio() {
         console.log('Error with call to nestio API')
     }
 
-    setTimeout(call_nestio, 10000);
+    setTimeout(call_nestio, timeoutInterval);
 }
 
 call_nestio(); 
